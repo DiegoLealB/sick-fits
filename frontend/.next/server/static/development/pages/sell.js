@@ -183,11 +183,11 @@ function (_Component) {
     _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(CreateItem)).call.apply(_getPrototypeOf2, [this].concat(args)));
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "state", {
-      title: 'Cool Shoes',
-      description: 'I love those shoes',
-      image: 'dog.jpg',
-      largeImage: 'large-dog.jpg',
-      price: 1000
+      title: '',
+      description: '',
+      image: '',
+      largeImage: '',
+      price: 0
     });
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "handleChange", function (e) {
