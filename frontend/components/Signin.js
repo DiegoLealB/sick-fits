@@ -17,7 +17,6 @@ const SIGNIN_MUTATION = gql`
 
 class Signin extends React.Component {
     state = {
-        name: '',
         email: '',
         password: '',
     }
@@ -35,6 +34,10 @@ class Signin extends React.Component {
                  <Form method="post" onSubmit={(e) => {
                     e.preventDefault();
                     signin();
+                    this.setState({
+                        email: '',
+                        password: '',                    
+                    });
                 }}>
                     <fieldset disabled={loading} aria-busy={loading}>
                         <h2>Sign In to your Account</h2>

@@ -35,6 +35,11 @@ class Signup extends React.Component {
                  <Form method="post" onSubmit={(e) => {
                     e.preventDefault();
                     signup();
+                    this.setState({
+                        name: '',
+                        email: '',
+                        password: '',
+                    })
                 }}>
                     <fieldset disabled={loading} aria-busy={loading}>
                         <h2>Sign Up for an Account</h2>
