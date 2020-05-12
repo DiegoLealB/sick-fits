@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import propTypes from 'prop-types';
 import Link from 'next/link';
 import Title from './styles/Title';
 import ItemStyles from './styles/ItemStyles';
@@ -9,7 +9,7 @@ import DeleteItem from './DeleteItem';
 
 export default class Item extends Component {
   static propTypes = {
-    item: PropTypes.object.isRequired,
+    item: propTypes.object.isRequired,
   };
 
   render() {
