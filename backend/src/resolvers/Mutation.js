@@ -13,8 +13,6 @@ const Mutations = {
       },
       info
     );
-    console.log(item);
-
     return item;
   },
 
@@ -91,7 +89,6 @@ const Mutations = {
       where: { email: args.email },
       data: { resetToken, resetTokenExpiry },
     });
-    console.log(res);
     return { message: "Reset token sent to email" };
   },
 
@@ -104,6 +101,9 @@ const Mutations = {
     });
     if (!user) {
       throw new Error("This token is either invalid or expired");
+    }
+    if (args.password !== args.confirmPassword) {
+      throw new Error("Passwords do not match");
     }
     const password = await bcrypt.hash(args.password, 10);
     const updatedUser = await ctx.db.mutation.updateUser({
