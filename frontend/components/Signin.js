@@ -1,78 +1,84 @@
-import React from 'react';
-import { Mutation } from 'react-apollo';
-import gql from 'graphql-tag';
-import Form from './styles/Form';
-import Error from './ErrorMessage';
-import { CURRENT_USER_QUERY } from './User';
+import React from "react";
+import { Mutation } from "react-apollo";
+import gql from "graphql-tag";
+import Form from "./styles/Form";
+import Error from "./ErrorMessage";
+import { CURRENT_USER_QUERY } from "./User";
 
 const SIGNIN_MUTATION = gql`
-    mutation SIGNIN_MUTATION($email: String!, $password: String!) {
-        signin(email: $email, password: $password) {
-            id
-            email
-            name
-        }
+  mutation SIGNIN_MUTATION($email: String!, $password: String!) {
+    signin(email: $email, password: $password) {
+      id
+      email
+      name
     }
+  }
 `;
 
 class Signin extends React.Component {
-    state = {
-        email: '',
-        password: '',
-    }
-    saveToState = (e) => {
-        this.setState({
-            [e.target.name]: e.target.value,
-        })
-    }
+  state = {
+    email: "",
+    password: "",
+  };
 
-    render() {
-        return (
-            <Mutation mutation={SIGNIN_MUTATION} variables={this.state} refetchQueries={[{ query: CURRENT_USER_QUERY }]}>
-                {(signin, {error, loading}) => {
-                 return (
-                 <Form method="post" onSubmit={(e) => {
-                    e.preventDefault();
-                    signin();
-                    this.setState({
-                        email: '',
-                        password: '',                    
-                    });
-                }}>
-                    <fieldset disabled={loading} aria-busy={loading}>
-                        <h2>Sign In to your Account</h2>
-                        <Error error={error} />
+  saveToState = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+  };
 
-                        <label htmlFor="email">
-                            Email
-                            <input
-                            type="email"
-                            name="email" 
-                            placeholder="Email" 
-                            value={this.state.email} 
-                            onChange={this.saveToState} 
-                            />
-                        </label>
+  render() {
+    return (
+      <Mutation
+        mutation={SIGNIN_MUTATION}
+        variables={this.state}
+        refetchQueries={[{ query: CURRENT_USER_QUERY }]}
+      >
+        {(signin, { error, loading }) => (
+          <Form
+            method="post"
+            onSubmit={(e) => {
+              e.preventDefault();
+              signin();
+              this.setState({
+                email: "",
+                password: "",
+              });
+            }}
+          >
+            <fieldset disabled={loading} aria-busy={loading}>
+              <h2>Sign In to your Account</h2>
+              <Error error={error} />
 
-                        <label htmlFor="password">
-                            Password
-                            <input
-                            type="password"
-                            name="password" 
-                            placeholder="password" 
-                            value={this.state.password} 
-                            onChange={this.saveToState} 
-                            />
-                        </label>
+              <label htmlFor="email">
+                Email
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Email"
+                  value={this.state.email}
+                  onChange={this.saveToState}
+                />
+              </label>
 
-                        <button type="submit">Sign in</button>
-                    </fieldset>
-                </Form>
-                 );
-                }}
-            </Mutation>
-        );
-    }
+              <label htmlFor="password">
+                Password
+                <input
+                  type="password"
+                  name="password"
+                  placeholder="password"
+                  value={this.state.password}
+                  onChange={this.saveToState}
+                />
+              </label>
+
+              <button type="submit">Sign in</button>
+            </fieldset>
+          </Form>
+        )}
+      </Mutation>
+    );
+  }
 }
 
 export default Signin;

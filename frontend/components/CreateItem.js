@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import { Mutation } from 'react-apollo';
-import gql from 'graphql-tag';
-import Router from 'next/router';
-import Form from './styles/Form';
-import formatMoney from '../lib/formatMoney';
-import Error from './ErrorMessage';
-import { ALL_ITEMS_QUERY } from './Items';
+import React, { Component } from "react";
+import { Mutation } from "react-apollo";
+import gql from "graphql-tag";
+import Router from "next/router";
+import Form from "./styles/Form";
+import formatMoney from "../lib/formatMoney";
+import Error from "./ErrorMessage";
+import { ALL_ITEMS_QUERY } from "./Items";
 
 const CREATE_ITEM_MUTATION = gql`
   mutation CREATE_ITEM_MUTATION(
@@ -29,42 +29,47 @@ const CREATE_ITEM_MUTATION = gql`
 
 class CreateItem extends Component {
   state = {
-    title: '',
-    description: '',
-    image: '',
-    largeImage: '',
+    title: "",
+    description: "",
+    image: "",
+    largeImage: "",
     price: 0,
   };
-  handleChange = e => {
+
+  handleChange = (e) => {
     const { name, type, value } = e.target;
-    const val = type === 'number' ? parseFloat(value) : value;
+    const val = type === "number" ? parseFloat(value) : value;
     this.setState({ [name]: val });
   };
-  uploadFile = async e => {
-    console.log('uploading file...');
-    const files = e.target.files;
+
+  uploadFile = async (e) => {
+    console.log("uploading file...");
+    const { files } = e.target;
     const data = new FormData();
-    data.append('file', files[0]);
-    data.append('upload_preset', 'sick-fits');
+    data.append("file", files[0]);
+    data.append("upload_preset", "sick-fits");
 
     const res = await fetch(
-      "https://api.cloudinary.com/v1_1/duoizmpwx/image/upload", {
-        method: 'POST',
-        body: data
-    });
+      "https://api.cloudinary.com/v1_1/duoizmpwx/image/upload",
+      {
+        method: "POST",
+        body: data,
+      }
+    );
     const file = await res.json();
     console.log(file);
     this.setState({
       image: file.secure_url,
-      largeImage: file.eager[0].secure_url
+      largeImage: file.eager[0].secure_url,
     });
-  }
+  };
+
   render() {
     return (
       <Mutation mutation={CREATE_ITEM_MUTATION} variables={this.state}>
         {(createItem, { loading, error }) => (
           <Form
-            onSubmit={async e => {
+            onSubmit={async (e) => {
               // Stop the form from submitting
               e.preventDefault();
               // call the mutation
@@ -72,14 +77,14 @@ class CreateItem extends Component {
               // change them to the single item page
               console.log(res);
               Router.push({
-                pathname: '/item',
+                pathname: "/item",
                 query: { id: res.data.createItem.id },
               });
             }}
           >
             <Error error={error} />
             <fieldset disabled={loading} aria-busy={loading}>
-                <label htmlFor="file">
+              <label htmlFor="file">
                 Image
                 <input
                   type="file"
@@ -90,7 +95,13 @@ class CreateItem extends Component {
                   // value={this.state.image}
                   onChange={this.uploadFile}
                 />
-                {this.state.image && <img width="200" src={this.state.image} alt="upload preview" />}
+                {this.state.image && (
+                  <img
+                    width="200"
+                    src={this.state.image}
+                    alt="upload preview"
+                  />
+                )}
               </label>
               <label htmlFor="title">
                 Title
